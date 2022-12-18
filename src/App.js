@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Layout } from "./layout.js";
 import { ListStudents } from "./components/listStudents";
 import { SubjectTeachers } from "./components/subjectTeachers";
-import { createContext, useState } from 'react';
+import { createContext } from 'react';
 import { AddStudent } from "./components/addStudent";
 import { DeleteStudent } from "./components/deleteStudent";
 import { EditStudent } from "./components/editStudent";
@@ -13,73 +13,45 @@ import './App.css';
 export const studentsCtx = createContext();
 
 function App() {
-  const initialStudentsList = [
-    {
-      id: 1,
-      name: "siva1",
-      dob: "05-06-1995",
-      parentMobile: 9500852761,
-      fatherName: "Madhaiyan",
-      gender: "male",
-      std: 4
-    }, {
-      id: 2,
-      name: "siva2",
-      dob: "05-06-1995",
-      parentMobile: 9500852762,
-      fatherName: "Madhaiyan",
-      gender: "male",
-      std: 4
-    }, {
-      id: 3,
-      name: "siva3",
-      dob: "05-06-1995",
-      parentMobile: 9500852763,
-      fatherName: "Madhaiyan",
-      gender: "male",
-      std: 4
-    }];
-
-  const [studentsList, setStudentsList] = useState(initialStudentsList);
 
   const teachersList = [
     {
       id: 101,
       name: "Sivalingam",
       dob: "05-06-1975",
-      mobile: 9500852760,
+      mobile: 9500852761,
       fatherName: "Madhan",
       gender: "male",
       std: 4
     }, {
       id: 102,
-      name: "t 102",
+      name: "karthikeyan",
       dob: "05-06-1975",
-      mobile: 9500852760,
+      mobile: 9500852762,
       fatherName: "Nadhan",
       gender: "male",
       std: 4
     }, {
       id: 103,
-      name: "t 103",
+      name: "ragu",
       dob: "05-06-1975",
-      mobile: 9500852760,
+      mobile: 9500852763,
       fatherName: "Mahan",
       gender: "female",
       std: 4
     }, {
       id: 104,
-      name: "t 104",
+      name: "sanjay",
       dob: "05-06-1975",
-      mobile: 9500852760,
+      mobile: 9500852764,
       fatherName: "Madan",
       gender: "male",
       std: 4
     }, {
       id: 105,
-      name: "t 105",
+      name: "keerthi",
       dob: "05-06-1975",
-      mobile: 9500852760,
+      mobile: 9500852765,
       fatherName: "Madha",
       gender: "male",
       std: 4
@@ -97,7 +69,7 @@ function App() {
 
 
   return (
-    <studentsCtx.Provider value={{ studentsList, setStudentsList, teachersList, classSubjectTeachers }}>
+    <studentsCtx.Provider value={{ teachersList, classSubjectTeachers }}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<ListStudents />} />

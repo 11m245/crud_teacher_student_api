@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -6,18 +6,25 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { studentsCtx } from "../App";
 import IconButton from '@mui/material/IconButton';
 import ModeEditOutlineRoundedIcon from '@mui/icons-material/ModeEditOutlineRounded';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import { useNavigate } from "react-router-dom";
 
 function ListStudents() {
-    const { studentsList } = useContext(studentsCtx);
 
+
+    const [studentsList, setStudentsList] = useState([]);
+
+    const getStudents = () => {
+        fetch("https://63899fdd4eccb986e895a955.mockapi.io/students", { method: "GET" })
+            .then(response => response.json()).then(data => setStudentsList(data));
+    }
+
+    useEffect(() => { getStudents() }, []);
 
     return (<>
-        <BasicTable studentsList={studentsList} />
+        {studentsList.length > 0 ? <BasicTable studentsList={studentsList} /> : "Loading..."}
     </>)
 }
 
@@ -25,9 +32,6 @@ function ListStudents() {
 function BasicTable({ studentsList }) {
 
     const navigate = useNavigate();
-
-
-
 
     const rows = studentsList.map((student, i) => {
         return {

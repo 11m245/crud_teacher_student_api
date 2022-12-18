@@ -1,28 +1,27 @@
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { studentsCtx } from "../App";
 import Button from '@mui/material/Button';
 
 function EditStudent() {
-
     const { id } = useParams();
-
-    const { studentsList, setStudentsList } = useContext(studentsCtx);
+    const [currentStudent, setCurrentStudent] = useState({});
     const navigate = useNavigate();
 
-    const filteredList = studentsList.filter((student => student.id == id));
-    console.log(filteredList[0]);
+    useEffect(() => {
+        fetch(`https://63899fdd4eccb986e895a955.mockapi.io/students/${id}`, { method: "GET" })
+            .then(response => response.json()).then(data => setCurrentStudent(data));
+    }, [id]);
 
-    const remainingList = studentsList.filter((student => student.id != id));
 
 
-    const [currentStudent, setCurrentStudent] = useState(filteredList[0]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // console.log("submitted edit");
-        setStudentsList([...remainingList, currentStudent]);
-        navigate("/list-students");
+
+        fetch(`https://63899fdd4eccb986e895a955.mockapi.io/students/${id}`,
+            { method: "PUT", headers: { "Content-type": "application/json" }, body: JSON.stringify(currentStudent) })
+            .then(navigate("/list-students"));
+
     }
 
     return (<>
@@ -66,7 +65,7 @@ function EditStudent() {
                 <input type="number" className="form-control" id="st_std" placeholder="admission Class" value={currentStudent.std} onChange={(e) => setCurrentStudent({ ...currentStudent, std: e.target.value })} />
             </div>
             <Button type="submit" sx={{ width: "150px", display: "block", marginInline: "auto" }} variant="contained">Update Student</Button>
-            {/* <input className="mx-auto" style={{ width: "140px" }} type="submit" value="Update Student" /> */}
+
         </form>
 
     </>);

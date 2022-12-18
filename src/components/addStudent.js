@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import { studentsCtx } from "../App";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 
 const AddStudent = () => {
@@ -11,8 +10,9 @@ const AddStudent = () => {
 }
 
 const StudentForm = () => {
-    const { studentsList, setStudentsList } = useContext(studentsCtx);
+
     const navigate = useNavigate();
+
 
     const initialStudentDetails = {
         id: "",
@@ -23,16 +23,17 @@ const StudentForm = () => {
         gender: "",
         std: ""
     }
-
     const [student, setStudent] = useState(initialStudentDetails);
 
-    const handleSubmit = (e) => {
 
+    const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("student Details Submitted", student);
-        setStudentsList([...studentsList, student])
-        console.log("studentsList is ", studentsList);
-        navigate("/success");
+
+        fetch("https://63899fdd4eccb986e895a955.mockapi.io/students/",
+            { method: "POST", headers: { "Content-type": "application/json" }, body: JSON.stringify(student) })
+            .then(response => response.json()).then(navigate("/success"));
+
+        // navigate("/success");
     }
 
     return (<>
@@ -73,7 +74,7 @@ const StudentForm = () => {
             </div>
             <div className="mb-2">
                 <label htmlFor="st_std" className="form-label">Student's Admission Class</label>
-                <input type="number" className="form-control" id="st_std" defaultValue="4" placeholder="admission Class" onChange={(e) => setStudent({ ...student, std: e.target.value })} />
+                <input type="number" className="form-control" id="st_std" value="4" placeholder="admission Class" onChange={(e) => setStudent({ ...student, std: e.target.value })} />
             </div>
 
             <Button type="submit" sx={{ width: "150px", display: "block", marginInline: "auto" }} variant="contained">Add Student</Button>

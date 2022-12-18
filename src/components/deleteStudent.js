@@ -1,22 +1,22 @@
-import { useContext, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom"
-import { studentsCtx } from "../App";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from '@mui/material/Button';
 
 function DeleteStudent() {
     const { id } = useParams();
-    const { studentsList, setStudentsList } = useContext(studentsCtx);
+    const [currentStudent, setCurrentStudent] = useState({});
     const navigate = useNavigate();
 
-    const remainingList = studentsList.filter((student => student.id != id));
-    const filteredList = studentsList.filter((student => student.id == id));
-    const [currentStudent, setCurrentStudent] = useState(filteredList[0]);
+
+    useEffect(() => {
+        fetch(`https://63899fdd4eccb986e895a955.mockapi.io/students/${id}`, { method: "GET" })
+            .then(response => response.json()).then(data => setCurrentStudent(data));
+    }, [id]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // console.log("submitted edit");
-        setStudentsList([...remainingList]);
-        navigate("/list-students");
+        fetch(`https://63899fdd4eccb986e895a955.mockapi.io/students/${id}`, { method: "DELETE" })
+            .then(navigate("/list-students"));
     }
 
     return (<>
