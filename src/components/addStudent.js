@@ -29,9 +29,17 @@ const StudentForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        function checkResponse(response) {
+            if (response.status >= 200 && response.status <= 299) {
+                return response.json();
+            } else {
+                throw Error(response.statusText)
+            }
+        }
+
         fetch("https://63899fdd4eccb986e895a955.mockapi.io/students/",
             { method: "POST", headers: { "Content-type": "application/json" }, body: JSON.stringify(student) })
-            .then(response => response.json()).then(navigate("/success"));
+            .then(response => checkResponse(response)).then(navigate("/success")).catch(error => console.log(error));
 
         // navigate("/success");
     }
