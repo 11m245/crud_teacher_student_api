@@ -1,24 +1,116 @@
-import logo from './logo.svg';
+import { Routes, Route } from 'react-router-dom';
+import { Layout } from "./layout.js";
+import { ListStudents } from "./components/listStudents";
+import { SubjectTeachers } from "./components/subjectTeachers";
+import { createContext, useState } from 'react';
+import { AddStudent } from "./components/addStudent";
+import { DeleteStudent } from "./components/deleteStudent";
+import { EditStudent } from "./components/editStudent";
+import { NotFound } from "./components/notfound";
+import { Success } from "./components/success";
 import './App.css';
 
+export const studentsCtx = createContext();
+
 function App() {
+  const initialStudentsList = [
+    {
+      id: 1,
+      name: "siva1",
+      dob: "05-06-1995",
+      parentMobile: 9500852761,
+      fatherName: "Madhaiyan",
+      gender: "male",
+      std: 4
+    }, {
+      id: 2,
+      name: "siva2",
+      dob: "05-06-1995",
+      parentMobile: 9500852762,
+      fatherName: "Madhaiyan",
+      gender: "male",
+      std: 4
+    }, {
+      id: 3,
+      name: "siva3",
+      dob: "05-06-1995",
+      parentMobile: 9500852763,
+      fatherName: "Madhaiyan",
+      gender: "male",
+      std: 4
+    }];
+
+  const [studentsList, setStudentsList] = useState(initialStudentsList);
+
+  const teachersList = [
+    {
+      id: 101,
+      name: "Sivalingam",
+      dob: "05-06-1975",
+      mobile: 9500852760,
+      fatherName: "Madhan",
+      gender: "male",
+      std: 4
+    }, {
+      id: 102,
+      name: "t 102",
+      dob: "05-06-1975",
+      mobile: 9500852760,
+      fatherName: "Nadhan",
+      gender: "male",
+      std: 4
+    }, {
+      id: 103,
+      name: "t 103",
+      dob: "05-06-1975",
+      mobile: 9500852760,
+      fatherName: "Mahan",
+      gender: "female",
+      std: 4
+    }, {
+      id: 104,
+      name: "t 104",
+      dob: "05-06-1975",
+      mobile: 9500852760,
+      fatherName: "Madan",
+      gender: "male",
+      std: 4
+    }, {
+      id: 105,
+      name: "t 105",
+      dob: "05-06-1975",
+      mobile: 9500852760,
+      fatherName: "Madha",
+      gender: "male",
+      std: 4
+    }];
+
+  const classSubjectTeachers = [
+    {
+      std: 4,
+      subjects: [{ name: "Tamil", "teacherId": 101 },
+      { name: "English", "teacherId": 102 },
+      { name: "Maths", "teacherId": 103 },
+      { name: "Science", "teacherId": 104 },
+      { name: "Social", "teacherId": 105 }]
+    }];
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <studentsCtx.Provider value={{ studentsList, setStudentsList, teachersList, classSubjectTeachers }}>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<ListStudents />} />
+          <Route path="add-student" element={<AddStudent />} />
+          <Route path="subject-teachers" element={<SubjectTeachers />} />
+          <Route path="list-students" element={<ListStudents />} />
+          <Route path="edit-student/:id" element={<EditStudent />} />
+          <Route path="delete-student/:id" element={<DeleteStudent />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="success" element={<Success />} />
+        </Route>
+      </Routes>
+    </studentsCtx.Provider>
   );
 }
 
