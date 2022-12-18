@@ -5,7 +5,7 @@ function Layout() {
     return (<>
         <div className="app container-fluid">
             <div className="project-container container mt-1">
-                <h3 className="text-center">Teacher Student DashBoard</h3>
+                <h3 className="text-center">Teacher Student DashBoard API</h3>
                 <Header />
                 <div className="content-container mt-3">
                     <Outlet />
